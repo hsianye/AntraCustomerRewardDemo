@@ -18,13 +18,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api")
 public class CustomerController {
     private CustomerService customerService;
 
     @Autowired
     public CustomerController(CustomerService customerService){
         this.customerService = customerService;
+    }
+
+    @RequestMapping("/")
+    public String home(){
+        return "Hello World";
     }
 
     @PostMapping("/customer")
