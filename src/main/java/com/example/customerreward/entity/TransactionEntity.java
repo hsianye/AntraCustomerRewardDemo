@@ -14,7 +14,6 @@ public class TransactionEntity {
     @Column(name = "id", updatable = false, unique = true)
     private Long id;
 
-    @ManyToOne
     @JoinColumn(name = "customer_id", referencedColumnName = "id")
     private Long customerId;
 
