@@ -3,10 +3,13 @@ package com.example.customerreward.service;
 import com.example.customerreward.dao.CustomerRepository;
 import com.example.customerreward.dao.TransactionRepository;
 import com.example.customerreward.dto.Reward;
+import com.example.customerreward.entity.CustomerEntity;
 import com.example.customerreward.entity.TransactionEntity;
 import com.example.customerreward.dto.Customer;
 import com.example.customerreward.dto.Transaction;
 import com.example.customerreward.exception.CustomerNotFoundException;
+import com.example.customerreward.exception.NoTransactionInThreeMonthsException;
+import com.example.customerreward.utils.ConversionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.NoTransactionException;
@@ -31,13 +34,15 @@ public class CustomerService {
     }
 
     public Customer createCustomer(Customer customer){
-        Customer savedCustomer = customerRepository.save(customer);
-        return savedCustomer;
+        CustomerEntity customerEntity = ConversionUtil.toCustomerEntity(customer);
+        CustomerEntity savedCustomer = customerRepository.save(customerEntity);
+        return ConversionUtil.toCustomerDto(savedCustomer);
     }
 
     public Transaction createTransaction(Transaction transaction){
-        Transaction savedTransaction = transactionRepository.save(transaction);
-        return savedTransaction;
+        TransactionEntity transactionEntity = ConversionUtil.toTransactionEntity(transaction);
+        TransactionEntity savedTransaction = transactionRepository.save(transactionEntity);
+        return ConversionUtil.toTransactionDto(savedTransaction);
     }
 
     public Reward getRewardsForCustomerInLastThreeMonths(Long customerId){
@@ -52,7 +57,7 @@ public class CustomerService {
         List<TransactionEntity> transactions = transactionRepository.findByCustomerIdAndDatetimeAfter(
                 customerId, threeMonthsAgo);
         if(transactions.isEmpty()){
-            throw new NoTransactionException("Customer with ID " + customerId + " has no transaction in 3 months");
+            throw new NoTransactionInThreeMonthsException("Customer with ID " + customerId + " has no transaction in 3 months");
         }
         Long totalRewards = transactions
                 .stream()

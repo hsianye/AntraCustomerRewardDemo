@@ -48,7 +48,7 @@ public class Transaction {
         return datetime;
     }
 
-    public void getDatetime(LocalDateTime datetime) {
+    public void setDatetime(LocalDateTime datetime) {
         this.datetime = datetime;
     }
 

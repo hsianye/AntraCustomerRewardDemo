@@ -5,7 +5,7 @@ import com.example.customerreward.dto.Customer;
 import com.example.customerreward.dto.Reward;
 import com.example.customerreward.dto.Transaction;
 import com.example.customerreward.exception.CustomerNotFoundException;
-import com.example.customerreward.exception.NoTransactionInThreeMonths;
+import com.example.customerreward.exception.NoTransactionInThreeMonthsException;
 import com.example.customerreward.service.CustomerService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +46,7 @@ public class CustomerController {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    protected ResponseEntity methodArgumentNotValidHandler(MethodArgumentNotValidException e){
+    protected ResponseEntity<Map<String, String>> methodArgumentNotValidHandler(MethodArgumentNotValidException e){
         Map<String, String> errors = new HashMap<>();
         e.getBindingResult().getFieldErrors().forEach(
                 error -> errors.put(error.getField(), error.getDefaultMessage())
@@ -60,8 +60,8 @@ public class CustomerController {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(NoTransactionInThreeMonths.class)
-    protected ResponseEntity<Object> handleTransactionNotFound(NoTransactionInThreeMonths e) {
+    @ExceptionHandler(NoTransactionInThreeMonthsException.class)
+    protected ResponseEntity<Object> handleTransactionNotFound(NoTransactionInThreeMonthsException e) {
         // Return a 404 status with a custom message
         return new ResponseEntity<>(e.getMessage(), HttpStatus.NO_CONTENT);
     }

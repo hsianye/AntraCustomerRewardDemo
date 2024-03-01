@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public interface TransactionRepository extends JpaRepository<Transaction, Long> {
+public interface TransactionRepository extends JpaRepository<TransactionEntity, Long> {
     // equals to `SELECT t FROM TransactionEntity t WHERE t.customerId = :customerId AND t.datetime > :datetime`
     List<TransactionEntity> findByCustomerIdAndDatetimeAfter(Long customerId, LocalDateTime datetime);
 }
