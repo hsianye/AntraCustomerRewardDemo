@@ -1,5 +1,8 @@
+DROP TABLE transaction;
+DROP TABLE customer;
+
 CREATE TABLE `customer`(
-    `id` bigint PRIMARY KEY ,
+    `id` bigint AUTO_INCREMENT PRIMARY KEY ,
     `name` varchar(255) NOT NULL
 );
 CREATE TABLE `transaction`(

@@ -10,8 +10,8 @@ import jakarta.validation.constraints.NotNull;
 public class CustomerEntity {
 
     @Id
-    @GeneratedValue
-    @Column(name = "id", updatable = false, unique = true)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, unique = true, nullable = false)
     private Long id;
 
     @NotNull

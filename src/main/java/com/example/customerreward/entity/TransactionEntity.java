@@ -10,12 +10,13 @@ import java.time.LocalDateTime;
 @Table(name = "transaction")
 public class TransactionEntity {
     @Id
-    @GeneratedValue
-    @Column(name = "id", updatable = false, unique = true)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, unique = true, nullable = false)
     private Long id;
 
+    @ManyToOne
     @JoinColumn(name = "customer_id", referencedColumnName = "id")
-    private Long customerId;
+    private CustomerEntity customer;
 
     @NotNull
     @Column(name = "datetime")
@@ -28,19 +29,11 @@ public class TransactionEntity {
     public TransactionEntity() {
     }
 
-    public TransactionEntity(Long id, Long customerId, LocalDateTime datetime, Long amount) {
+    public TransactionEntity(Long id, CustomerEntity customer, LocalDateTime datetime, Long amount) {
         this.id = id;
-        this.customerId = customerId;
+        this.customer = customer;
         this.datetime = datetime;
         this.amount = amount;
-    }
-
-    // Does this practice(using constructor to convert dto and entity) reasonable?
-    public TransactionEntity(Transaction transaction){
-        this.id = transaction.getId();
-        this.customerId = transaction.getCustomerId();
-        this.datetime = transaction.getDatetime();
-        this.amount = transaction.getAmount();
     }
 
     public Long getId() {
@@ -51,12 +44,12 @@ public class TransactionEntity {
         this.id = id;
     }
 
-    public Long getCustomerId() {
-        return customerId;
+    public CustomerEntity getCustomer() {
+        return customer;
     }
 
-    public void setCustomerId(Long customerId) {
-        this.customerId = customerId;
+    public void setCustomer(CustomerEntity customer) {
+        this.customer = customer;
     }
 
     public LocalDateTime getDatetime() {

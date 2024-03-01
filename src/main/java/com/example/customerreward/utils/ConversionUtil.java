@@ -36,7 +36,10 @@ public class ConversionUtil {
         }
         Transaction transaction = new Transaction();
         transaction.setId(transactionEntity.getId());
-        transaction.setCustomerId(transactionEntity.getCustomerId());
+        transaction.setCustomer(new Customer(
+                transactionEntity.getCustomer().getId(),
+                transactionEntity.getCustomer().getName()
+        ));
         transaction.setDatetime(transactionEntity.getDatetime());
         transaction.setAmount(transactionEntity.getAmount());
         return transaction;
@@ -48,7 +51,10 @@ public class ConversionUtil {
         }
         TransactionEntity transactionEntity = new TransactionEntity();
         transactionEntity.setId(transactionDto.getId());
-        transactionEntity.setCustomerId(transactionDto.getCustomerId());
+        transactionEntity.setCustomer(new CustomerEntity(
+                transactionDto.getCustomer().getId(),
+                transactionDto.getCustomer().getName()
+        ));
         transactionEntity.setDatetime(transactionDto.getDatetime());
         transactionEntity.setAmount(transactionDto.getAmount());
         return transactionEntity;
